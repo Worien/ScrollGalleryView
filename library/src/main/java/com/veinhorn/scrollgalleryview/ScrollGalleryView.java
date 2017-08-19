@@ -43,16 +43,19 @@ public class ScrollGalleryView extends LinearLayout {
     private LinearLayout thumbnailsContainer;
     private HorizontalScrollView horizontalScrollView;
     private ViewPager viewPager;
+    private OnImageSwipeListener onImageSwipeListener;
 
     // Listeners
     private final ViewPager.SimpleOnPageChangeListener viewPagerChangeListener = new ViewPager.SimpleOnPageChangeListener() {
-        @Override public void onPageSelected(int position) {
+        @Override
+        public void onPageSelected(int position) {
             scroll(thumbnailsContainer.getChildAt(position));
         }
     };
 
     private final OnClickListener thumbnailOnClickListener = new OnClickListener() {
-        @Override public void onClick(View v) {
+        @Override
+        public void onClick(View v) {
             scroll(v);
             viewPager.setCurrentItem((int) v.getTag(), true);
         }
@@ -80,27 +83,37 @@ public class ScrollGalleryView extends LinearLayout {
         return this;
     }
 
+    public void setOnImageSwipeListener(OnImageSwipeListener onImageSwipeListener) {
+        this.onImageSwipeListener = onImageSwipeListener;
+    }
+
     public ViewPager getViewPager() {
         return viewPager;
     }
 
     /**
      * Set up OnPageChangeListener for internal ViewPager
+     *
      * @param listener
      */
     public void addOnPageChangeListener(final ViewPager.OnPageChangeListener listener) {
         viewPager.clearOnPageChangeListeners();
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 listener.onPageScrolled(position, positionOffset, positionOffsetPixels);
             }
 
-            @Override public void onPageSelected(int position) {
+            @Override
+            public void onPageSelected(int position) {
                 scroll(thumbnailsContainer.getChildAt(position));
                 listener.onPageSelected(position);
+                if (onImageSwipeListener != null)
+                    onImageSwipeListener.imageSwipe(position);
             }
 
-            @Override public void onPageScrollStateChanged(int state) {
+            @Override
+            public void onPageScrollStateChanged(int state) {
                 listener.onPageScrollStateChanged(state);
             }
         });
@@ -229,5 +242,9 @@ public class ScrollGalleryView extends LinearLayout {
             inSampleSize *= 2;
         }
         return inSampleSize;
+    }
+
+    public interface OnImageSwipeListener {
+        void imageSwipe(int position);
     }
 }

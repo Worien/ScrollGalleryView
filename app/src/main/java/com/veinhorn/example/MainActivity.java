@@ -34,7 +34,6 @@ public class MainActivity extends FragmentActivity {
 
         List<MediaInfo> infos = new ArrayList<>(images.size());
         for (String url : images) infos.add(MediaInfo.mediaLoader(new PicassoImageLoader(url)));
-        //lol
         scrollGalleryView = (ScrollGalleryView) findViewById(R.id.scroll_gallery_view);
         scrollGalleryView
                 .setThumbnailSize(100)
