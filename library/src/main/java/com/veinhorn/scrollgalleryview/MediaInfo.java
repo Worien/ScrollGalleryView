@@ -18,6 +18,9 @@ public class MediaInfo {
     }
 
     public MediaInfo setLoader(MediaLoader loader) {
+        //some comment
+        //some comment
+        //some comment
         mLoader = loader;
         return this;
     }
