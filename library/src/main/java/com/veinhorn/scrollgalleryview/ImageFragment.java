@@ -35,6 +35,7 @@ public class ImageFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.image_fragment, container, false);
         backgroundImage = (ImageView) rootView.findViewById(R.id.backgroundImage);
         viewPager = (HackyViewPager) getActivity().findViewById(R.id.viewPager);
+        setRetainInstance(true);
 
         if (savedInstanceState != null) {
             boolean isLocked = savedInstanceState.getBoolean(Constants.IS_LOCKED, false);
